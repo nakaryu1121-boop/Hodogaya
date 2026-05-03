@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HODOGAYA AREA DEFENSE V11.2</title>
+    <title>HODOGAYA AREA DEFENSE V11.4</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
@@ -13,9 +13,22 @@
         .mono { font-family: 'Share Tech Mono', monospace; }
         .nerv-panel { background: rgba(20, 20, 20, 0.9); border: 1px solid #333; border-left: 4px solid #E60012; }
         .symbol { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: 2px solid #fff; border-radius: 4px; font-size: 14px; font-weight: 900; margin-right: 10px; flex-shrink: 0; }
-        .symbol-jo { background-color: #0072bc; } .symbol-js { background-color: #e21f26; } .symbol-so { background-color: #003f8e; } .symbol-kk { background-color: #da041a; }
-        .btn-official { transition: all 0.2s; position: relative; overflow: hidden; }
-        .btn-official:hover { background-color: #E60012; transform: scale(1.02); }
+        
+        /* 基本のボタン設定 */
+        .btn-line { transition: all 0.3s ease; border: 1px solid #222; background-color: #000; }
+        .btn-line:hover { transform: translateY(-2px); border-color: #fff; }
+
+        /* 🟢 個別ホバーカラー設定 */
+        .hover-jo:hover { background-color: #0072bc !important; } /* 横須賀ブルー */
+        .hover-js:hover { background-color: #e21f26 !important; } /* 湘南新宿レッド */
+        .hover-so:hover { background-color: #003f8e !important; } /* 相鉄ネイビー */
+        .hover-kk:hover { background-color: #da041a !important; } /* 京急レッド */
+
+        .symbol-jo { background-color: #0072bc; }
+        .symbol-js { background-color: #e21f26; }
+        .symbol-so { background-color: #003f8e; }
+        .symbol-kk { background-color: #da041a; }
+
         .status-pulse { animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
         ::-webkit-scrollbar { width: 5px; }
@@ -25,42 +38,39 @@
 <body class="p-4 md:p-8">
 
     <div class="max-w-6xl mx-auto space-y-6">
-        <!-- システムヘッダー -->
         <div class="flex justify-between items-center text-[10px] font-bold tracking-[0.2em] text-[#666] border-b border-[#333] pb-1">
             <div class="flex items-center gap-2 text-[#00ff41]">
                 <span class="w-2 h-2 bg-[#00ff41] rounded-full status-pulse"></span>
                 STABLE_MODE: ACTIVE
             </div>
-            <div class="mono text-[#E60012]">UI_UPDATE: LABEL_COLOR_FIX</div>
+            <div class="mono text-[#E60012]">UI_LOG: HOVER_REACTIVE_COLOR_APPLIED</div>
         </div>
 
         <header class="flex flex-col md:flex-row justify-between items-end gap-2">
-            <div>
-                <h1 class="text-4xl font-black text-[#E60012] italic tracking-tighter leading-none">HODOGAYA <span class="text-white not-italic">AREA DEFENSE</span></h1>
-            </div>
+            <h1 class="text-4xl font-black text-[#E60012] italic tracking-tighter leading-none">HODOGAYA <span class="text-white not-italic">AREA DEFENSE</span></h1>
             <div id="clock" class="text-5xl font-black mono text-white leading-none tracking-tighter">00:00:00</div>
         </header>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <div class="lg:col-span-7 space-y-6">
-                <!-- 運行情報 -->
+                <!-- 運行情報：ホバー時に色が変わる仕様 -->
                 <div class="nerv-panel p-5">
                     <h2 class="text-xs font-black bg-[#E60012] px-2 py-0.5 text-white tracking-widest uppercase mb-4 w-fit">Transportation</h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <a href="https://transit.yahoo.co.jp/diainfo/29/0" target="_blank" class="btn-official bg-[#000] border border-[#222] p-4 flex items-center">
-                            <div class="symbol symbol-jo">JO</div>
+                        <a href="https://transit.yahoo.co.jp/diainfo/29/0" target="_blank" class="btn-line hover-jo p-4 flex items-center">
+                            <div class="symbol symbol-jo text-white">JO</div>
                             <span class="text-sm font-black text-[#eee]">横須賀線 ≫</span>
                         </a>
-                        <a href="https://transit.yahoo.co.jp/diainfo/25/0" target="_blank" class="btn-official bg-[#000] border border-[#222] p-4 flex items-center">
-                            <div class="symbol symbol-js">JS</div>
+                        <a href="https://transit.yahoo.co.jp/diainfo/25/0" target="_blank" class="btn-line hover-js p-4 flex items-center">
+                            <div class="symbol symbol-js text-white">JS</div>
                             <span class="text-sm font-black text-[#eee]">湘南新宿ライン ≫</span>
                         </a>
-                        <a href="https://transit.yahoo.co.jp/diainfo/125/0" target="_blank" class="btn-official bg-[#000] border border-[#222] p-4 flex items-center">
-                            <div class="symbol symbol-so">SO</div>
+                        <a href="https://transit.yahoo.co.jp/diainfo/125/0" target="_blank" class="btn-line hover-so p-4 flex items-center">
+                            <div class="symbol symbol-so text-white">SO</div>
                             <span class="text-sm font-black text-[#eee]">相鉄線 ≫</span>
                         </a>
-                        <a href="https://transit.yahoo.co.jp/diainfo/120/0" target="_blank" class="btn-official bg-[#000] border border-[#222] p-4 flex items-center">
-                            <div class="symbol symbol-kk">KK</div>
+                        <a href="https://transit.yahoo.co.jp/diainfo/120/0" target="_blank" class="btn-line hover-kk p-4 flex items-center">
+                            <div class="symbol symbol-kk text-white">KK</div>
                             <span class="text-sm font-black text-[#eee]">京急本線 ≫</span>
                         </a>
                     </div>
@@ -78,20 +88,15 @@
 
             <!-- 右カラム -->
             <div class="lg:col-span-5 space-y-6">
-                <div class="nerv-panel p-5 h-[400px] flex flex-col border-l-[#333]">
+                <div class="nerv-panel p-5 h-[340px] flex flex-col border-l-[#333]">
                     <h2 class="text-xs font-black bg-[#333] px-2 py-0.5 text-white mb-3 w-fit tracking-widest uppercase">NERV Feed</h2>
                     <ul id="nerv-display" class="overflow-y-auto text-[11px] space-y-3 text-[#888] pr-2 flex-grow"></ul>
                 </div>
-                <!-- 改修ポイント：ボタンラベルと色の変更 -->
-                <div class="grid grid-cols-2 gap-3">
-                    <a href="https://www.jma.go.jp/bosai/nowc/#lat:35.44&lon:139.59&zoom:12" target="_blank" 
-                       class="bg-[#111] hover:bg-[#0055ff] text-center py-4 text-[11px] font-black transition border border-[#333] border-t-2 border-t-[#0055ff]">
-                       雨雲の動き
-                    </a>
-                    <a href="https://www.jma.go.jp/bosai/risk/#lat:35.44&lon:139.59&zoom:12" target="_blank" 
-                       class="bg-[#111] hover:bg-[#8000ff] text-center py-4 text-[11px] font-black transition border border-[#333] border-t-2 border-t-[#8000ff]">
-                       キキクル
-                    </a>
+
+                <div class="grid grid-cols-3 gap-2">
+                    <a href="https://www.jma.go.jp/bosai/nowc/#lat:35.44&lon:139.59&zoom:12" target="_blank" class="bg-[#111] hover:bg-[#0055ff] text-center py-4 text-[10px] font-black transition border border-[#333] border-t-2 border-t-[#0055ff]">雨雲の動き</a>
+                    <a href="https://www.jma.go.jp/bosai/risk/#lat:35.44&lon:139.59&zoom:12" target="_blank" class="bg-[#111] hover:bg-[#8000ff] text-center py-4 text-[10px] font-black transition border border-[#333] border-t-2 border-t-[#8000ff]">キキクル</a>
+                    <a href="https://typhoon.yahoo.co.jp/weather/jp/earthquake/kyoshin/" target="_blank" class="bg-[#111] hover:bg-[#ff8000] text-center py-4 text-[10px] font-black transition border border-[#333] border-t-2 border-t-[#ff8000]">強震モニタ</a>
                 </div>
             </div>
         </div>
@@ -107,9 +112,7 @@
                 const res = await fetch("https://www.jma.go.jp/bosai/forecast/data/overview_forecast/140000.json");
                 const data = await res.json();
                 document.getElementById('overview-display').innerText = data.text;
-            } catch (e) {
-                document.getElementById('overview-display').innerText = "データ取得エラー";
-            }
+            } catch (e) { document.getElementById('overview-display').innerText = "取得エラー"; }
         }
 
         async function loadNerv() {
@@ -122,14 +125,11 @@
                         <div class="text-[8px] mono text-[#444] tracking-widest uppercase">${new Date(item.pubDate).toLocaleString()}</div>
                     </li>
                 `).join('');
-            } catch (e) {
-                document.getElementById('nerv-display').innerHTML = "<li>ニュース取得エラー</li>";
-            }
+            } catch (e) {}
         }
 
         loadOverview(); loadNerv();
-        setInterval(loadOverview, 600000);
-        setInterval(loadNerv, 300000);
+        setInterval(loadOverview, 600000); setInterval(loadNerv, 300000);
     </script>
 </body>
 </html>
