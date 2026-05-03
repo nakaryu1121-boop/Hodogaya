@@ -84,7 +84,7 @@
                             </div>
                         </a>
                         <!-- 相鉄線 -->
-                        <a href="https://transit.yahoo.co.jp/diainfo/82/0" target="_blank" id="panel-sotetsu" class="bg-[#000] border border-[#222] p-3 flex items-center hover:bg-[#1a1a1a] transition">
+                        <a href="https://transit.yahoo.co.jp/diainfo/125/0" target="_blank" id="panel-sotetsu" class="bg-[#000] border border-[#222] p-3 flex items-center hover:bg-[#1a1a1a] transition">
                             <div class="symbol symbol-so text-white">SO</div>
                             <div class="flex-grow min-w-0">
                                 <p class="text-[7px] text-[#666] font-black uppercase truncate">Sotetsu Line</p>
@@ -93,7 +93,7 @@
                             </div>
                         </a>
                         <!-- 京急線 -->
-                        <a href="https://transit.yahoo.co.jp/diainfo/44/0" target="_blank" id="panel-keikyu" class="bg-[#000] border border-[#222] p-3 flex items-center hover:bg-[#1a1a1a] transition">
+                        <a href="https://transit.yahoo.co.jp/diainfo/120/0" target="_blank" id="panel-keikyu" class="bg-[#000] border border-[#222] p-3 flex items-center hover:bg-[#1a1a1a] transition">
                             <div class="symbol symbol-kk text-white">KK</div>
                             <div class="flex-grow min-w-0">
                                 <p class="text-[7px] text-[#666] font-black uppercase truncate">Keikyu Line</p>
