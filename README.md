@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HODOGAYA AREA DEFENSE - Ver. 10.0</title>
+    <title>HODOGAYA AREA DEFENSE - Ver. 10.1</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
@@ -12,27 +12,14 @@
         }
         .mono { font-family: 'Share Tech Mono', monospace; }
         .nerv-panel { background: rgba(15, 15, 15, 0.95); border: 1px solid #333; border-left: 4px solid #E60012; transition: all 0.5s ease; }
-        
-        /* 🚨 アラート（遅延発生時） */
         .line-alert { 
-            border: 2px solid #ff0000 !important; 
-            border-left-width: 10px !important;
+            border: 2px solid #ff0000 !important; border-left-width: 10px !important;
             background: linear-gradient(90deg, rgba(80,0,0,0.9) 0%, rgba(15,15,15,0.95) 100%) !important;
             animation: alert-flash 1s infinite alternate;
         }
-        @keyframes alert-flash {
-            from { box-shadow: 0 0 10px rgba(255,0,0,0.3); }
-            to { box-shadow: 0 0 30px rgba(255,0,0,0.7); }
-        }
-
+        @keyframes alert-flash { from { box-shadow: 0 0 10px rgba(255,0,0,0.3); } to { box-shadow: 0 0 30px rgba(255,0,0,0.7); } }
         .symbol { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border: 2px solid #fff; border-radius: 4px; font-size: 13px; font-weight: 900; margin-right: 8px; flex-shrink: 0; }
-        
-        /* 路線別カラー */
-        .symbol-jo { background-color: #0072bc; } /* 横須賀線 */
-        .symbol-js { background-color: #e21f26; } /* 湘南新宿 */
-        .symbol-so { background-color: #003f8e; } /* 相鉄線 */
-        .symbol-kk { background-color: #da041a; } /* 京急線 */
-
+        .symbol-jo { background-color: #0072bc; } .symbol-js { background-color: #e21f26; } .symbol-so { background-color: #003f8e; } .symbol-kk { background-color: #da041a; }
         .status-pulse { animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
         ::-webkit-scrollbar { width: 5px; }
@@ -42,7 +29,6 @@
 <body class="p-4 md:p-8">
 
     <div class="max-w-6xl mx-auto space-y-6">
-        <!-- システムヘッダー -->
         <div class="flex justify-between items-center text-[10px] font-bold tracking-[0.2em] text-[#666] border-b border-[#333] pb-1">
             <div class="flex items-center gap-2">
                 <span class="w-2 h-2 bg-[#00ff41] rounded-full status-pulse"></span>
@@ -50,7 +36,7 @@
             </div>
             <div class="flex gap-4">
                 <span id="sync-status" class="mono">TRANSIT_SYNC: WAIT</span>
-                <span>NODE: HODOGAYA_04_LINE</span>
+                <span>NODE: HODOGAYA_ROBUST_V1</span>
             </div>
         </div>
 
@@ -61,11 +47,10 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <div class="lg:col-span-7 space-y-6">
-                <!-- TRANSPORTATION UNIT (4路線版) -->
+                <!-- TRANSPORTATION UNIT -->
                 <div class="nerv-panel p-5">
                     <h2 class="text-[10px] font-black bg-[#E60012] px-2 py-0.5 text-white tracking-widest uppercase mb-4 w-fit">Transportation Management</h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <!-- 横須賀線 -->
                         <a href="https://transit.yahoo.co.jp/diainfo/29/0" target="_blank" id="panel-yokosuka" class="bg-[#000] border border-[#222] p-3 flex items-center hover:bg-[#1a1a1a] transition">
                             <div class="symbol symbol-jo text-white">JO</div>
                             <div class="flex-grow min-w-0">
@@ -74,7 +59,6 @@
                                 <p id="status-yokosuka" class="text-[8px] font-bold mt-0.5 text-[#00ff41]">NORMAL</p>
                             </div>
                         </a>
-                        <!-- 湘南新宿ライン -->
                         <a href="https://transit.yahoo.co.jp/diainfo/25/0" target="_blank" id="panel-ssline" class="bg-[#000] border border-[#222] p-3 flex items-center hover:bg-[#1a1a1a] transition">
                             <div class="symbol symbol-js text-white">JS</div>
                             <div class="flex-grow min-w-0">
@@ -83,8 +67,7 @@
                                 <p id="status-ssline" class="text-[8px] font-bold mt-0.5 text-[#00ff41]">NORMAL</p>
                             </div>
                         </a>
-                        <!-- 相鉄線 -->
-                        <a href="https://transit.yahoo.co.jp/diainfo/125/0" target="_blank" id="panel-sotetsu" class="bg-[#000] border border-[#222] p-3 flex items-center hover:bg-[#1a1a1a] transition">
+                        <a href="https://transit.yahoo.co.jp/diainfo/82/0" target="_blank" id="panel-sotetsu" class="bg-[#000] border border-[#222] p-3 flex items-center hover:bg-[#1a1a1a] transition">
                             <div class="symbol symbol-so text-white">SO</div>
                             <div class="flex-grow min-w-0">
                                 <p class="text-[7px] text-[#666] font-black uppercase truncate">Sotetsu Line</p>
@@ -92,8 +75,7 @@
                                 <p id="status-sotetsu" class="text-[8px] font-bold mt-0.5 text-[#00ff41]">NORMAL</p>
                             </div>
                         </a>
-                        <!-- 京急線 -->
-                        <a href="https://transit.yahoo.co.jp/diainfo/120/0" target="_blank" id="panel-keikyu" class="bg-[#000] border border-[#222] p-3 flex items-center hover:bg-[#1a1a1a] transition">
+                        <a href="https://transit.yahoo.co.jp/diainfo/44/0" target="_blank" id="panel-keikyu" class="bg-[#000] border border-[#222] p-3 flex items-center hover:bg-[#1a1a1a] transition">
                             <div class="symbol symbol-kk text-white">KK</div>
                             <div class="flex-grow min-w-0">
                                 <p class="text-[7px] text-[#666] font-black uppercase truncate">Keikyu Line</p>
@@ -133,32 +115,51 @@
     </div>
 
     <script>
+        // 1. 時計
         setInterval(() => {
             document.getElementById('clock').innerText = new Date().toLocaleTimeString('ja-JP', { hour12: false });
         }, 1000);
 
+        // 2. 鉄道運行情報 (トリプル・プロキシ・フォールバック)
         async function checkTrainStatus() {
             const syncLabel = document.getElementById('sync-status');
-            try {
-                const targetUrl = "https://tetsudo.rti-giken.jp/free/tetsudo_now/api/delay.json";
-                const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`);
-                const delays = await res.json();
-                
-                // 4路線の判定
-                const status = {
-                    yokosuka: delays.some(d => d.name.includes("横須賀線")),
-                    ssline: delays.some(d => d.name.includes("湘南新宿ライン")),
-                    sotetsu: delays.some(d => d.name.includes("相鉄")),
-                    keikyu: delays.some(d => d.name.includes("京急"))
-                };
+            const targetUrl = "https://tetsudo.rti-giken.jp/free/tetsudo_now/api/delay.json";
+            
+            // 複数のプロキシを候補に用意
+            const proxies = [
+                `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
+                `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`,
+                `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`
+            ];
 
-                for (let key in status) { updatePanel(key, status[key]); }
-                
-                syncLabel.innerText = "TRANSIT_SYNC: OK";
-                syncLabel.style.color = "#00ff41";
-            } catch (e) {
-                syncLabel.innerText = "TRANSIT_SYNC: ERROR";
-                syncLabel.style.color = "#ff4444";
+            let success = false;
+            for (const url of proxies) {
+                try {
+                    const res = await fetch(url);
+                    if (!res.ok) continue;
+                    const delays = await res.json();
+                    
+                    const status = {
+                        yokosuka: delays.some(d => d.name.includes("横須賀線")),
+                        ssline: delays.some(d => d.name.includes("湘南新宿ライン")),
+                        sotetsu: delays.some(d => d.name.includes("相鉄")),
+                        keikyu: delays.some(d => d.name.includes("京急"))
+                    };
+
+                    for (let key in status) { updatePanel(key, status[key]); }
+                    
+                    syncLabel.innerText = "TRANSIT_SYNC: OK";
+                    syncLabel.style.color = "#00ff41";
+                    success = true;
+                    break; // 成功したらループを抜ける
+                } catch (e) {
+                    console.warn(`Proxy fail: ${url}`);
+                }
+            }
+
+            if (!success) {
+                syncLabel.innerText = "TRANSIT_SYNC: RETRYING";
+                syncLabel.style.color = "#ffdb00";
             }
         }
 
@@ -180,6 +181,7 @@
             }
         }
 
+        // 3. 概況取得
         async function loadOverview() {
             try {
                 const res = await fetch("https://www.jma.go.jp/bosai/forecast/data/overview_forecast/140000.json");
@@ -188,11 +190,12 @@
             } catch (e) {}
         }
 
+        // 4. NERV取得
         async function loadNerv() {
             try {
                 const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent("https://unnerv.jp/@UN_NERV.rss")}`);
                 const data = await res.json();
-                document.getElementById('nerv-display').innerHTML = data.items.slice(0, 10).map(item => `
+                document.getElementById('nerv-display').innerHTML = data.items.slice(0, 12).map(item => `
                     <li class="border-b border-[#222] pb-3">
                         <div class="text-[#bbb] mb-1 font-bold leading-relaxed">${item.description.replace(/<[^>]+>/g, '')}</div>
                         <div class="text-[8px] mono text-[#444] tracking-widest">${new Date(item.pubDate).toLocaleString()}</div>
@@ -207,9 +210,7 @@
             ["yokosuka", "ssline", "sotetsu", "keikyu"].forEach(id => updatePanel(id, isTestAlert));
         }
 
-        checkTrainStatus();
-        loadOverview();
-        loadNerv();
+        checkTrainStatus(); loadOverview(); loadNerv();
         setInterval(checkTrainStatus, 60000);
         setInterval(loadOverview, 600000);
         setInterval(loadNerv, 300000);
