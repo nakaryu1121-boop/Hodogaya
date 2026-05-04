@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HODOGAYA AREA DEFENSE V11.4</title>
+    <title>HODOGAYA AREA DEFENSE V14.1</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
@@ -14,20 +14,27 @@
         .nerv-panel { background: rgba(20, 20, 20, 0.9); border: 1px solid #333; border-left: 4px solid #E60012; }
         .symbol { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: 2px solid #fff; border-radius: 4px; font-size: 14px; font-weight: 900; margin-right: 10px; flex-shrink: 0; }
         
-        /* 基本のボタン設定 */
         .btn-line { transition: all 0.3s ease; border: 1px solid #222; background-color: #000; }
-        .btn-line:hover { transform: translateY(-2px); border-color: #fff; }
-
-        /* 🟢 個別ホバーカラー設定 */
-        .hover-jo:hover { background-color: #0072bc !important; } /* 横須賀ブルー */
-        .hover-js:hover { background-color: #e21f26 !important; } /* 湘南新宿レッド */
-        .hover-so:hover { background-color: #003f8e !important; } /* 相鉄ネイビー */
-        .hover-kk:hover { background-color: #da041a !important; } /* 京急レッド */
+        .hover-jo:hover { background-color: #0072bc !important; }
+        .hover-js:hover { background-color: #e21f26 !important; }
+        .hover-so:hover { background-color: #003f8e !important; }
+        .hover-kk:hover { background-color: #da041a !important; }
 
         .symbol-jo { background-color: #0072bc; }
         .symbol-js { background-color: #e21f26; }
         .symbol-so { background-color: #003f8e; }
         .symbol-kk { background-color: #da041a; }
+
+        .feed-hit { 
+            border: 1px solid #ff0000 !important;
+            background: linear-gradient(90deg, rgba(120,0,0,0.7) 0%, rgba(20,20,20,0.9) 100%) !important;
+            position: relative;
+        }
+        .feed-hit::before {
+            content: "LOCAL_IMPACT";
+            position: absolute; top: -8px; right: 10px;
+            background: #ff0000; color: white; font-size: 8px; font-weight: 900; padding: 0 5px;
+        }
 
         .status-pulse { animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
@@ -43,7 +50,7 @@
                 <span class="w-2 h-2 bg-[#00ff41] rounded-full status-pulse"></span>
                 STABLE_MODE: ACTIVE
             </div>
-            <div class="mono text-[#E60012]">UI_LOG: HOVER_REACTIVE_COLOR_APPLIED</div>
+            <div class="mono text-[#E60012]">FEED_PATH_FIXED: DIRECT_UN_NERV</div>
         </div>
 
         <header class="flex flex-col md:flex-row justify-between items-end gap-2">
@@ -53,7 +60,7 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <div class="lg:col-span-7 space-y-6">
-                <!-- 運行情報：ホバー時に色が変わる仕様 -->
+                <!-- 運行情報 -->
                 <div class="nerv-panel p-5">
                     <h2 class="text-xs font-black bg-[#E60012] px-2 py-0.5 text-white tracking-widest uppercase mb-4 w-fit">Transportation</h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -79,7 +86,7 @@
                 <!-- 天気概況 -->
                 <div class="nerv-panel p-5 border-l-[#444]">
                     <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xs font-black bg-[#333] px-2 py-0.5 text-white tracking-widest uppercase">Overview</h2>
+                        <h2 class="text-xs font-black bg-[#333] px-2 py-0.5 text-white tracking-widest uppercase">Weather Overview</h2>
                         <a href="https://www.jma.go.jp/bosai/warning/#area_code=140000&lang=ja&area_type=offices" target="_blank" class="text-[9px] text-[#E60012] font-black underline italic">JMA OFFICIAL ≫</a>
                     </div>
                     <div id="overview-display" class="text-[13px] leading-relaxed text-[#bbb] bg-[#080808] p-4 border border-[#222]">Loading weather overview...</div>
@@ -88,9 +95,22 @@
 
             <!-- 右カラム -->
             <div class="lg:col-span-5 space-y-6">
-                <div class="nerv-panel p-5 h-[340px] flex flex-col border-l-[#333]">
-                    <h2 class="text-xs font-black bg-[#333] px-2 py-0.5 text-white mb-3 w-fit tracking-widest uppercase">NERV Feed</h2>
-                    <ul id="nerv-display" class="overflow-y-auto text-[11px] space-y-3 text-[#888] pr-2 flex-grow"></ul>
+                <!-- NERV：配信元(unnerv.jp)を直撃するように修正 -->
+                <div class="nerv-panel p-5 h-[280px] flex flex-col border-l-[#E60012]">
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 class="text-xs font-black bg-[#E60012] px-2 py-0.5 text-white tracking-widest uppercase">NERV Disaster Feed</h2>
+                        <span class="text-[8px] mono text-[#555]">SOURCE: @UN_NERV</span>
+                    </div>
+                    <ul id="nerv-feed" class="overflow-y-auto text-[10px] space-y-2 text-[#888] pr-2 flex-grow"></ul>
+                </div>
+
+                <!-- delainfo -->
+                <div class="nerv-panel p-5 h-[280px] flex flex-col border-l-[#333]">
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 class="text-xs font-black bg-[#333] px-2 py-0.5 text-white tracking-widest uppercase">Transit Live Feed</h2>
+                        <span class="text-[8px] mono text-[#555]">SOURCE: @delainfo</span>
+                    </div>
+                    <ul id="transit-feed" class="overflow-y-auto text-[10px] space-y-2 text-[#888] pr-2 flex-grow"></ul>
                 </div>
 
                 <div class="grid grid-cols-3 gap-2">
@@ -115,21 +135,41 @@
             } catch (e) { document.getElementById('overview-display').innerText = "取得エラー"; }
         }
 
-        async function loadNerv() {
+        // NERV：配信元(unnerv.jp)のRSSを直接取得
+        async function loadNervFeed() {
             try {
-                const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent("https://unnerv.jp/@UN_NERV.rss")}`);
+                const rssUrl = "https://unnerv.jp/@UN_NERV.rss";
+                const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
                 const data = await res.json();
-                document.getElementById('nerv-display').innerHTML = data.items.slice(0, 15).map(item => `
-                    <li class="border-b border-[#222] pb-3">
-                        <div class="text-[#bbb] mb-1 font-bold leading-relaxed">${item.description.replace(/<[^>]+>/g, '')}</div>
-                        <div class="text-[8px] mono text-[#444] tracking-widest uppercase">${new Date(item.pubDate).toLocaleString()}</div>
-                    </li>
-                `).join('');
-            } catch (e) {}
+                document.getElementById('nerv-feed').innerHTML = data.items.map(item => {
+                    const content = item.description.replace(/<[^>]+>/g, '').trim();
+                    return `<li class="border-b border-[#222] pb-2 p-1"><div class="text-[#bbb] leading-tight">${content}</div><div class="text-[7px] mono text-[#444] mt-1">${new Date(item.pubDate).toLocaleString()}</div></li>`;
+                }).join('');
+            } catch (e) {
+                document.getElementById('nerv-feed').innerHTML = "<li>NERV同期エラー</li>";
+            }
         }
 
-        loadOverview(); loadNerv();
-        setInterval(loadOverview, 600000); setInterval(loadNerv, 300000);
+        async function loadTransitFeed() {
+            try {
+                const rssUrl = "https://mastodon.social/@delainfo.rss";
+                const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
+                const data = await res.json();
+                const targets = ["横須賀", "湘南新宿", "相鉄", "京急"];
+                document.getElementById('transit-feed').innerHTML = data.items.map(item => {
+                    const content = item.description.replace(/<[^>]+>/g, '').trim();
+                    const isHit = targets.some(keyword => content.includes(keyword));
+                    return `<li class="border-b border-[#222] pb-2 p-1 ${isHit ? 'feed-hit' : ''}"><div class="${isHit ? 'text-white font-black' : 'text-[#bbb]'} leading-tight">${content}</div><div class="text-[7px] mono text-[#444] mt-1">${new Date(item.pubDate).toLocaleString()}</div></li>`;
+                }).join('');
+            } catch (e) {
+                document.getElementById('transit-feed').innerHTML = "<li>運行情報同期エラー</li>";
+            }
+        }
+
+        loadOverview(); loadNervFeed(); loadTransitFeed();
+        setInterval(loadOverview, 600000);
+        setInterval(loadNervFeed, 300000);
+        setInterval(loadTransitFeed, 300000);
     </script>
 </body>
 </html>
